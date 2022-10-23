@@ -4,14 +4,14 @@
 #include <opencv2/imgproc.hpp>
 
 #include <unistd.h>
+#include <string>
+#include <cvt_base.h>
 
 using namespace std;
 using namespace cv;
 
-#define LOGD(f_, ...) printf((f_), __VA_ARGS__)
-
 void print_usage() {
-	printf("nnnn\n");
+	LOGD("nnnn\n");
 }
 
 int main(int argc, char** argv)
@@ -20,12 +20,17 @@ int main(int argc, char** argv)
 		print_usage();
 		return 1;
 	} else {
-		printf("good %s", argv[1]);
+		std::string fileName = argv[1];
+		int fpos = fileName.find_last_of('/');
+		if (fpos != std::string::npos) {
+			fileName = fileName.substr(fpos+1);
+		}
+		LOGD("good %s\n", fileName.c_str());
 	}
 	const char* pic_file = argv[1];
 
 	if(access(pic_file, 0) != 0) {
-		printf("fail to load %s", pic_file);
+		LOGD("fail to load %s\n", pic_file);
 		return 1;
 	}
 	

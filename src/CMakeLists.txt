@@ -12,8 +12,11 @@ project(cpp_samples)
 # message(STATUS "== cv include ${OpenCV_INCLUDE_DIRS}")
 # include_directories("${OpenCV_INCLUDE_DIRS}")
 
-file(GLOB_RECURSE cpp_samples RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/ *.cpp)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/base)
+
+file(GLOB_RECURSE cpp_samples RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} cv/*.cpp)
 # file(GLOB cpp_samples  "*.cpp")
+
 
 foreach(cpp_sample ${cpp_samples})
   set(package "cpp")
@@ -29,9 +32,6 @@ foreach(cpp_sample ${cpp_samples})
     set(package "cpp")
     cvt_cpp_define(tgt ${cpp_sample} ${package})
   endif()
-
-  message("== tgt is ${tgt}")
-
 
 #   if(DEFINED DEPS_${tgt})
 #     set(deps ${DEPS_${tgt}})

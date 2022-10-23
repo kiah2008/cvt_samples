@@ -1,6 +1,5 @@
 {
     "cmake.configureArgs": [
-        "-DCMAKE_PREFIX_PATH=D:\\msys64/mingw64/lib/cmake/opencv4"
     ],
     "files.associations": {
         "array": "cpp",

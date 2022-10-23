@@ -3,7 +3,7 @@
         {
             "type":"shell",
             "label": "run test",
-            "command": "${workspaceFolder}/build/bin/example_cpp_read_image.exe",
+            "command": "${workspaceFolder}/build/bin/example_cv_read_image",
             "args": [
                 "${workspaceFolder}/test_data/test_monkey.jpg"
             ],
