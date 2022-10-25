@@ -3,9 +3,9 @@
         {
             "type":"shell",
             "label": "run test",
-            "command": "${workspaceFolder}/build/bin/example_cv_read_image",
+            "command": "${input:run_cmd}",
             "args": [
-                "${workspaceFolder}/test_data/test_monkey.jpg"
+                "${input:input_pic}"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -14,7 +14,28 @@
                 "kind": "test",
                 "isDefault": true
             },
-            "detail": "run test"
+            "detail": "run test",
+        }
+    ],
+    "inputs": [
+        {
+          "id": "input_pic",
+          "type": "pickString",
+          "description": "input pic",
+          "options": [
+            "${workspaceFolder}/data/pic/lena.jpg"
+          ],
+          "default": "${workspaceFolder}/data/pic/lena.jpg"
+        },
+        {
+            "id":"run_cmd",
+            "type": "pickString",
+            "description": "run cmd",
+            "options": [
+                "${file}",
+                "${workspaceFolder}/build/bin/example_cv_read_image"
+            ],
+            "default": "${file}"
         }
     ],
     "version": "2.0.0"
