@@ -10,6 +10,7 @@ MESSAGE("CMAKE_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR}")
 
 set(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR})
 
+FIND_PACKAGE(OpenCV REQUIRED)
 
 if(MINGW)
   if(EXISTS /mingw)
@@ -36,16 +37,16 @@ else()
   cvt_update(3P_LIBRARY_OUTPUT_PATH      "$CVT_BINARY_DIR}/3rdparty/lib")
 endif()
 
-# if(ANDROID)
-#   if(ANDROID_ABI MATCHES "NEON")
-#     set(ENABLE_NEON ON)
-#   endif()
-#   if(ANDROID_ABI MATCHES "VFPV3")
-#     set(ENABLE_VFPV3 ON)
-#   endif()
-# endif()
+if(ANDROID)
+  if(ANDROID_ABI MATCHES "NEON")
+    set(ENABLE_NEON ON)
+  endif()
+  if(ANDROID_ABI MATCHES "VFPV3")
+    set(ENABLE_VFPV3 ON)
+  endif()
+endif()
 
- add_subdirectory(src)
+add_subdirectory(src)
 # add_subdirectory(tests)
 
 

@@ -7,5 +7,7 @@ using namespace std;
 
 int main() {
  std::cout << cv::getBuildInformation()<< std::endl;
+ std::cout<<"\n\n"<<std::endl;
+ std::cout<<"Dump Opencl" <<std::endl;
  cv::dumpOpenCLInformation();
 }

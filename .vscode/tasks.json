@@ -5,7 +5,25 @@
             "label": "run test",
             "command": "${input:run_cmd}",
             "args": [
-                "${input:input_pic}"
+                "${input:input_pic}",
+                "${input:input_pic2}",
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "detail": "run test",
+        },
+        {
+            "type":"shell",
+            "label": "run file",
+            "command": "${workspaceFolder}/build/bin/${input:sub}_${fileBasenameNoExtension}",
+            "args": [
+                "${input:input_pic}",
+                "${input:input_pic2}"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -19,14 +37,41 @@
     ],
     "inputs": [
         {
+            "id": "sub",
+            "type": "pickString",
+            "description": "input pic",
+            "options": [
+              "study",
+              "cv"
+            ],
+            "default": "study"
+          },
+        {
           "id": "input_pic",
           "type": "pickString",
           "description": "input pic",
           "options": [
-            "${workspaceFolder}/data/pic/lena.jpg"
+            "${workspaceFolder}/data/pic/lena.jpg",
+            "${workspaceFolder}/data/pic/Harris_Detector_Original_Image.jpg",
+            "${workspaceFolder}/data/pic/cycle_rectange.png",
+            "${workspaceFolder}/data/pic/left01.jpg",
+            "${workspaceFolder}/data/pic/right01.jpg",
+            "${workspaceFolder}/data/pic/box.png"
+
           ],
           "default": "${workspaceFolder}/data/pic/lena.jpg"
         },
+        {
+            "id": "input_pic2",
+            "type": "pickString",
+            "description": "input pic",
+            "options": [
+              "${workspaceFolder}/data/pic/rotate_cycle_rectange.png",
+              "${workspaceFolder}/data/pic/box_in_scene.png"
+
+            ],
+            "default": ""
+          },
         {
             "id":"run_cmd",
             "type": "pickString",

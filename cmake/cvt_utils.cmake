@@ -90,27 +90,39 @@ function(cvt_sample_define out_target source sub)
 endfunction()
 
 
-function(cvt_cpp_define out_target source sub)
+function(cvt_define_executeable out_target source sub)
   get_filename_component(name "${source}" NAME_WE)
-  set(the_target "example_${sub}_${name}")
+  set(the_target "${sub}_${name}")
   message(STATUS "Example: ${the_target}    (${source})")
+  if (NOT OpenCV_FOUND) 
+    MESSAGE(FATAL_ERROR "not found opencv")
+    return()
+  endif()
 
   add_executable(${the_target} "${source}")
+  target_link_libraries(${the_target} PUBLIC ${OpenCV_LIBS} ${deps})
+  target_include_directories(${the_target} PRIVATE ${OpenCV_INCLUDE_DIRS})
+
   if(TARGET Threads::Threads AND NOT OPENCV_EXAMPLES_DISABLE_THREADS)
     target_link_libraries(${the_target} PRIVATE Threads::Threads)
   endif()
 
   set_target_properties(${the_target} PROPERTIES PROJECT_LABEL "(sample) ${name}")
-  if(ENABLE_SOLUTION_FOLDERS)
-    set_target_properties(${the_target} PROPERTIES FOLDER "samples/${sub}")
-  endif()
+  
+
+  # if(ENABLE_SOLUTION_FOLDERS)
+  #   set_target_properties(${the_target} PROPERTIES FOLDER "samples/${sub}")
+  # endif()
+
   if(WIN32 AND MSVC AND NOT BUILD_SHARED_LIBS)
     set_target_properties(${the_target} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:atlthunk.lib /NODEFAULTLIB:atlsd.lib /DEBUG")
   endif()
+
   # Should be usable in stand-alone build scenario
   if(NOT DEFINED CVT_SAMPLES_BIN_INSTALL_PATH)
     set(CVT_SAMPLES_BIN_INSTALL_PATH "cpp")
   endif()
+  
   install(TARGETS ${the_target} RUNTIME DESTINATION "${CVT_SAMPLES_BIN_INSTALL_PATH}/${sub}" COMPONENT samples)
 
 

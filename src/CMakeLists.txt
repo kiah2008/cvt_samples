@@ -14,10 +14,16 @@ project(cpp_samples)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/base)
 
-file(GLOB_RECURSE cpp_samples RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} cv/*.cpp)
+file(GLOB_RECURSE cpp_samples RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} study/*.cpp)
 # file(GLOB cpp_samples  "*.cpp")
 
+add_subdirectory(base)
 
+if (DEFINED deps) 
+  LIST(APPEND deps cvt_base)
+else()
+  set(deps cvt_base)
+endif()
 foreach(cpp_sample ${cpp_samples})
   set(package "cpp")
 
@@ -26,11 +32,12 @@ foreach(cpp_sample ${cpp_samples})
   if(cpp_sample MATCHES "cv/")
     set(package "cv")
     cvt_sample_define(tgt ${cpp_sample} ${package})
-  endif()
-
-  if(cpp_sample MATCHES "cpp/")
+  elseif(cpp_sample MATCHES "cpp/")
     set(package "cpp")
-    cvt_cpp_define(tgt ${cpp_sample} ${package})
+    cvt_define_executeable(tgt ${cpp_sample} ${package})
+  elseif(cpp_sample MATCHES "study")
+    set(package "study")
+    cvt_define_executeable(tgt ${cpp_sample} ${package})
   endif()
 
 #   if(DEFINED DEPS_${tgt})
@@ -40,6 +47,7 @@ foreach(cpp_sample ${cpp_samples})
 #   if(cpp_sample MATCHES "/gpu/" AND HAVE_opencv_cudaarithm AND HAVE_opencv_cuda_filters)
 #   target_link_libraries(${tgt} PRIVATE opencv_cudaarithm opencv_cudafilters)
 #   endif()
+
 #   if(cpp_sample MATCHES "/viz/")
 #   target_link_libraries(${tgt} PRIVATE ${VTK_LIBRARIES})
 #     target_compile_definitions(${tgt} PRIVATE -DUSE_VTK)
